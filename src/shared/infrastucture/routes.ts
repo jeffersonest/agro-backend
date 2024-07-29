@@ -1,0 +1,16 @@
+import { Router } from 'express';
+import CropsRoutes from '../../modules/crops/infrastructure/crops.route';
+import ProducerRoutes from '../../modules/producer/infrastructure/producer.route';
+import UserRoutes from '../../modules/user/infrastructure/user.route';
+
+class Routes {
+  public static getRoutes(): Router[] {
+    return [
+      Router().use('/user', UserRoutes),
+      Router().use('/producer', ProducerRoutes),
+      Router().use('/crops', CropsRoutes),
+    ];
+  }
+}
+
+export default Routes.getRoutes();
