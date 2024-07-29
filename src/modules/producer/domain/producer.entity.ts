@@ -6,7 +6,7 @@ class Producer {
   id: string;
 
   @Column({ type: 'varchar', length: 14, nullable: false, unique: true })
-  indentification: string;
+  identification: string;
 
   @Column()
   producerName: string;

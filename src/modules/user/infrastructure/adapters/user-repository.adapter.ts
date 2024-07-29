@@ -17,15 +17,15 @@ class UserRepositoryAdapter implements UserRepositoryPort {
   }
 
   async create(user: User): Promise<User> {
-    return await this.repository.save(user);
+    return this.repository.save(user);
   }
 
   async findByEmail(email: string): Promise<User | null> {
-    return await this.repository.findOne({ where: { email } });
+    return this.repository.findOne({ where: { email } });
   }
 
   async findById(id: string): Promise<User | null> {
-    return await this.repository.findOne({ where: { id } });
+    return this.repository.findOne({ where: { id } });
   }
 
   async update(id: string, user: User): Promise<User | null> {

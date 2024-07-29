@@ -7,8 +7,8 @@ import UpdateUserDTO from '../dto/update-user.dto';
 class UpdateUserUseCase {
   constructor(@inject(UserService) private userService: UserService) {}
 
-  async execute(id: string, data: UpdateUserDTO): Promise<User | null> {
-    return await this.userService.updateUser(id, data);
+  async execute(id: string, user: UpdateUserDTO): Promise<User | null> {
+    return await this.userService.updateUser(id, user);
   }
 }
 

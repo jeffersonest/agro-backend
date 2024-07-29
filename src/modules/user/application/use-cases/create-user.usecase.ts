@@ -1,8 +1,7 @@
 import { inject, injectable } from 'tsyringe';
-
-import { CreateUserDTO } from '../dto/create-user.dto';
 import UserService from '../../domain/user.service';
 import User from '../../domain/user.entity';
+import CreateUserDTO from '../dto/create-user.dto';
 
 @injectable()
 class CreateUserUseCase {
@@ -11,12 +10,8 @@ class CreateUserUseCase {
     private readonly userService: UserService,
   ) {}
 
-  async execute(data: CreateUserDTO): Promise<User> {
-    try {
-      return await this.userService.createUser(data);
-    } catch (error) {
-      throw new Error((error as Error).message);
-    }
+  async execute(user: CreateUserDTO): Promise<User> {
+    return await this.userService.createUser(user);
   }
 }
 

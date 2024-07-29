@@ -1,10 +1,10 @@
 import Producer from '../producer.entity';
 
 abstract class ProducerRepositoryPort {
-  abstract create(producer: Producer): Promise<void>;
-  abstract update(producer: Producer): Promise<void>;
-  abstract delete(producer: Producer): Promise<void>;
-  abstract findById(id: string): Promise<Producer>;
+  abstract create(producer: Producer): Promise<Producer>;
+  abstract update(id: string, producer: Producer): Promise<Producer | null>;
+  abstract delete(producer: Producer): Promise<boolean>;
+  abstract findById(id: string): Promise<Producer | null>;
   abstract findAll(): Promise<Producer[]>;
 }
 

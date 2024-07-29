@@ -15,9 +15,6 @@ class UserService {
     password: string;
     name: string;
   }): Promise<User> {
-    const validator = new Validator();
-    await validator.validateOrReject(data);
-
     const userExists = await this.userRepository.findByEmail(data.email);
     if (userExists) {
       throw new Error('User already exists');
@@ -48,12 +45,9 @@ class UserService {
       throw new Error('User not found');
     }
 
-    const validator = new Validator();
-    await validator.validateOrReject(data);
-
     if (data.email) {
-      const userExists = await this.userRepository.findByEmail(data.email);
-      if (userExists && userExists.id !== id) {
+      const userExists = await this.userMailExists(id, data.email);
+      if (userExists) {
         throw new Error('Email already in use');
       }
       user.email = data.email;
@@ -66,6 +60,15 @@ class UserService {
     if (data.name) user.name = data.name;
 
     return await this.userRepository.update(id, user);
+  }
+
+  async userMailExists(id: string, email: string): Promise<boolean> {
+    const userExists = await this.userRepository.findByEmail(email);
+    if (userExists && userExists.id !== id) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   async deleteUser(id: string): Promise<boolean> {

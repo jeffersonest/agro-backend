@@ -5,6 +5,11 @@ import UpdateUserUseCase from '../application/use-cases/update-user.usecase';
 import DeleteUserUseCase from '../application/use-cases/delete-user.usecase';
 import ListUsersUseCase from '../application/use-cases/list-user.usecase';
 import GetUserUseCase from '../application/use-cases/get-user.usecase';
+import { plainToClass } from 'class-transformer';
+import CreateUserDTO from '../application/dto/create-user.dto';
+import UpdateUserDTO from '../application/dto/update-user.dto';
+import ErrorHandler from '../../../shared/utils/errorHandler';
+import { validateOrReject } from 'class-validator';
 
 @injectable()
 class UserController {
@@ -23,28 +28,29 @@ class UserController {
 
   public async createUser(req: Request, res: Response): Promise<Response> {
     try {
-      const { email, password, name } = req.body;
-      const user = await this.createUserUseCase.execute({
-        email,
-        password,
-        name,
-      });
+      const data = plainToClass(CreateUserDTO, req.body);
+      await validateOrReject(data);
+      const user = await this.createUserUseCase.execute(data);
       return res.status(201).json(user);
     } catch (error) {
-      return res.status(400).json({ message: (error as Error).message });
+      const { statusCode, body } = ErrorHandler.handle(error);
+      return res.status(statusCode).json(body);
     }
   }
 
   public async updateUser(req: Request, res: Response): Promise<Response> {
     try {
       const { id } = req.params;
-      const user = await this.updateUserUseCase.execute(id, req.body);
+      const data = plainToClass(UpdateUserDTO, req.body);
+      await validateOrReject(data);
+      const user = await this.updateUserUseCase.execute(id, data);
       if (!user) {
         return res.status(404).json({ message: 'User not found' });
       }
       return res.status(200).json(user);
     } catch (error) {
-      return res.status(400).json({ message: (error as Error).message });
+      const { statusCode, body } = ErrorHandler.handle(error);
+      return res.status(statusCode).json(body);
     }
   }
 
