@@ -43,6 +43,15 @@ import CreateProducerCropUseCase from '../modules/producer-crops/application/use
 import ProducerCropService from '../modules/producer-crops/domain/producer-crop.service';
 import ProducerCropRepositoryPort from '../modules/producer-crops/domain/ports/producer-crop-repository.port';
 import ProducerCropRepositoryAdapter from '../modules/producer-crops/infrastructure/adapters/producer-crop-repository.adapter';
+import GetFarmCountUseCase from '../modules/statistics/application/use-cases/get-farm-count.usecase';
+import GetTotalHectaresUseCase from '../modules/statistics/application/use-cases/get-total-hectares.usecase';
+import GetPieChartByStateUseCase from '../modules/statistics/application/use-cases/get-pie-chart-by-state.usecase';
+import GetPieChartByCropUseCase from '../modules/statistics/application/use-cases/get-pie-chart-by-crop.usecase';
+import GetPieChartByLandUseUseCase from '../modules/statistics/application/use-cases/get-pie-chart-by-land-use.usecase';
+import StatisticsController from '../modules/statistics/infrastructure/statistics.controller';
+import StatisticsService from '../modules/statistics/domain/statistics.service';
+import StatisticsRepositoryAdapter from '../modules/statistics/infrastructure/adapters/statistics-repository.adapter';
+import StatisticsRepositoryPort from '../modules/statistics/domain/ports/statistics-repository.port';
 
 // Registrar repositórios
 container.registerSingleton<UserRepositoryPort>(
@@ -61,6 +70,10 @@ container.registerSingleton<ProducerCropRepositoryPort>(
   'ProducerCropRepositoryPort',
   ProducerCropRepositoryAdapter,
 );
+container.registerSingleton<StatisticsRepositoryPort>(
+  'StatisticsRepositoryPort',
+  StatisticsRepositoryAdapter,
+);
 
 // Registrar serviços
 container.registerSingleton<UserService>('UserService', UserService);
@@ -72,6 +85,10 @@ container.registerSingleton<CropService>('CropService', CropService);
 container.registerSingleton<ProducerCropService>(
   'ProducerCropService',
   ProducerCropService,
+);
+container.registerSingleton<StatisticsService>(
+  'StatisticsService',
+  StatisticsService,
 );
 
 // Registrar casos de uso - User
@@ -156,6 +173,29 @@ container.registerSingleton<ListProducerCropsByStateUseCase>(
   ListProducerCropsByStateUseCase,
 );
 
+//---
+
+container.registerSingleton<GetFarmCountUseCase>(
+  'GetFarmCountUseCase',
+  GetFarmCountUseCase,
+);
+container.registerSingleton<GetTotalHectaresUseCase>(
+  'GetTotalHectaresUseCase',
+  GetTotalHectaresUseCase,
+);
+container.registerSingleton<GetPieChartByStateUseCase>(
+  'GetPieChartByStateUseCase',
+  GetPieChartByStateUseCase,
+);
+container.registerSingleton<GetPieChartByCropUseCase>(
+  'GetPieChartByCropUseCase',
+  GetPieChartByCropUseCase,
+);
+container.registerSingleton<GetPieChartByLandUseUseCase>(
+  'GetPieChartByLandUseUseCase',
+  GetPieChartByLandUseUseCase,
+);
+
 // Registrar controladores
 container.registerSingleton<UserController>('UserController', UserController);
 container.registerSingleton<ProducerController>(
@@ -166,4 +206,8 @@ container.registerSingleton<CropController>('CropController', CropController);
 container.registerSingleton<ProducerCropController>(
   'ProducerCropController',
   ProducerCropController,
+);
+container.registerSingleton<StatisticsController>(
+  'StatisticsController',
+  StatisticsController,
 );
