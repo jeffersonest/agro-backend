@@ -11,6 +11,7 @@ import CreateProducerDTO from '../application/dto/create-producer.dto';
 import UpdateProducerDTO from '../application/dto/update-producer.dto';
 import { validateOrReject } from 'class-validator';
 import ErrorHandler from '../../../shared/utils/errorHandler';
+import { cpf, cnpj } from 'cpf-cnpj-validator';
 
 @injectable()
 class ProducerController {
@@ -31,8 +32,15 @@ class ProducerController {
     try {
       const data = plainToClass(CreateProducerDTO, req.body);
       await validateOrReject(data);
-      await this.createProducerUseCase.execute(data);
-      return res.status(201).json({ message: 'Producer created successfully' });
+      if (
+        !(cpf.isValid(data.identification) || cnpj.isValid(data.identification))
+      ) {
+        return res.status(400).json({ message: 'Invalid CPF or CNPJ' });
+      }
+      const created = await this.createProducerUseCase.execute(data);
+      return res
+        .status(201)
+        .json({ message: 'Producer created successfully', producer: created });
     } catch (error) {
       const { statusCode, body } = ErrorHandler.handle(error);
       return res.status(statusCode).json(body);
@@ -44,6 +52,12 @@ class ProducerController {
       const { id } = req.params;
       const data = plainToClass(UpdateProducerDTO, req.body);
       await validateOrReject(data);
+      if (
+        data.identification &&
+        !(cpf.isValid(data.identification) || cnpj.isValid(data.identification))
+      ) {
+        return res.status(400).json({ message: 'Invalid CPF or CNPJ' });
+      }
       await this.updateProducerUseCase.execute(id, data);
       return res.status(200).json({ message: 'Producer updated successfully' });
     } catch (error) {

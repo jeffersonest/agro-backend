@@ -3,7 +3,7 @@ import { IsString, IsNotEmpty, IsNumber, Length } from 'class-validator';
 class CreateProducerDTO {
   @IsString()
   @IsNotEmpty()
-  @Length(14, 14)
+  @Length(11, 14)
   identification: string;
 
   @IsString()

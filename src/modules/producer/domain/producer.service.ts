@@ -10,7 +10,17 @@ class ProducerService {
   ) {}
 
   async createProducer(producer: Producer): Promise<Producer> {
+    const producerExists = await this.producerIdentificationExists(
+      producer.identification,
+    );
+    if (producerExists) {
+      throw new Error('Producer identification already exists');
+    }
     return this.producerRepository.create(producer);
+  }
+
+  async producerIdentificationExists(identification: string): Promise<boolean> {
+    return this.producerRepository.identificationExists(identification);
   }
 
   async updateProducer(

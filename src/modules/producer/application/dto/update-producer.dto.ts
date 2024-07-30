@@ -9,8 +9,8 @@ import {
 class UpdateProducerDTO {
   @IsString()
   @IsOptional()
-  @Length(14, 14)
-  indentification?: string;
+  @Length(11, 14)
+  identification?: string;
 
   @IsString()
   @IsOptional()

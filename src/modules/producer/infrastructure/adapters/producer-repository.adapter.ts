@@ -12,20 +12,30 @@ class ProducerRepositoryAdapter implements ProducerRepositoryPort {
     this.respository = AppDataSource.getRepository(Producer);
   }
 
+  async identificationExists(identification: string): Promise<boolean> {
+    return this.respository
+      .count({ where: { identification } })
+      .then((count) => count > 0);
+  }
+
   async create(producer: Producer): Promise<Producer> {
     return this.respository.save(producer);
   }
+
   async update(id: string, producer: Producer): Promise<Producer | null> {
     await this.respository.update(id, producer);
-    return this.findById(id);
+    return await this.findById(id);
   }
+
   async delete(producer: Producer): Promise<boolean> {
     const result = await this.respository.delete(producer);
     return result.affected !== 0;
   }
+
   async findById(id: string): Promise<Producer | null> {
     return this.respository.findOne({ where: { id } });
   }
+
   findAll(): Promise<Producer[]> {
     return this.respository.find();
   }

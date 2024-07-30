@@ -1,6 +1,7 @@
-import { Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 import { v7 as uuidv7 } from 'uuid';
 
+@Entity()
 class Producer {
   @PrimaryGeneratedColumn('uuid')
   id: string;
