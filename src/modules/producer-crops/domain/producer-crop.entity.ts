@@ -5,7 +5,7 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import { v7 as uuidv7 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 import Producer from '../../producer/domain/producer.entity';
 import Crop from '../../crops/domain/crops.entity';
 
@@ -14,11 +14,13 @@ class ProducerCrop {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => Producer, { eager: true })
+  @ManyToOne(() => Producer, (producer) => producer.producerCrops, {
+    eager: true,
+  })
   @JoinColumn({ name: 'producerId' })
   producer: Producer;
 
-  @ManyToOne(() => Crop, { eager: true })
+  @ManyToOne(() => Crop, (crop) => crop.producerCrops, { eager: true })
   @JoinColumn({ name: 'cropId' })
   crop: Crop;
 
@@ -30,7 +32,7 @@ class ProducerCrop {
 
   constructor() {
     if (!this.id) {
-      this.id = uuidv7();
+      this.id = uuidv4();
     }
   }
 }

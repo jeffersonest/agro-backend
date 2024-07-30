@@ -34,16 +34,20 @@ class ProducerCropRepositoryAdapter implements ProducerCropRepositoryPort {
   }
 
   async findById(id: string): Promise<ProducerCrop | null> {
-    return await this.repository.findOneBy({ id });
+    return await this.repository.findOne({
+      where: { id },
+      relations: ['producer', 'crop'],
+    });
   }
 
   async findAll(): Promise<ProducerCrop[]> {
-    return await this.repository.find();
+    return await this.repository.find({ relations: ['producer', 'crop'] });
   }
 
   async findAllByProducer(producerId: string): Promise<ProducerCrop[]> {
     return await this.repository.find({
       where: { producer: { id: producerId } },
+      relations: ['producer', 'crop'],
     });
   }
 
@@ -52,6 +56,7 @@ class ProducerCropRepositoryAdapter implements ProducerCropRepositoryPort {
       .createQueryBuilder('producerCrop')
       .innerJoinAndSelect('producerCrop.producer', 'producer')
       .where('producer.state = :state', { state })
+      .leftJoinAndSelect('producerCrop.crop', 'crop')
       .getMany();
   }
 }

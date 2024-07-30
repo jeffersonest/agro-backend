@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { container } from 'tsyringe';
 import ProducerController from './producer.controller';
-class ProcuderRoutes {
+class ProducerRoutes {
   private router: Router;
 
   constructor() {
@@ -35,4 +35,4 @@ class ProcuderRoutes {
   }
 }
 
-export default new ProcuderRoutes().getRoutes();
+export default new ProducerRoutes().getRoutes();
