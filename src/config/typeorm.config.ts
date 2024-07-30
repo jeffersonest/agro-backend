@@ -1,4 +1,5 @@
 import Crops from '../modules/crops/domain/crops.entity';
+import ProducerCrop from '../modules/producer-crops/domain/producer-crop.entity';
 import Producer from '../modules/producer/domain/producer.entity';
 import User from '../modules/user/domain/user.entity';
 import { DataSource } from 'typeorm';
@@ -12,7 +13,7 @@ export const AppDataSource = new DataSource({
   database: process.env.DB_DATABASE || 'database',
   synchronize: true,
   logging: true,
-  entities: [User, Producer, Crops],
+  entities: [User, Producer, Crops, ProducerCrop],
   migrations: ['src/shared/database/migrations/**/*.ts'],
   subscribers: ['src/shared/database/subscribers/**/*.ts'],
 });

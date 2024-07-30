@@ -34,6 +34,15 @@ import CropService from '../modules/crops/domain/crops.service';
 import CropsRepositoryPort from '../modules/crops/domain/ports/crops-repository.port';
 import CropsRepositoryAdapter from '../modules/crops/infrastructure/adapters/crops-repository.adapter';
 import CropController from '../modules/crops/infrastructure/crops.controller';
+import ProducerCropController from '../modules/producer-crops/infrastructure/producer-crop.controller';
+import ListProducerCropsByStateUseCase from '../modules/producer-crops/application/use-cases/list-producer-crops-by-state.usecase';
+import DeleteProducerCropUseCase from '../modules/producer-crops/application/use-cases/delete-producer-crop.usecase';
+import ListProducerCropsUseCase from '../modules/producer-crops/application/use-cases/list-producer-crops.usecase';
+import UpdateProducerCropUseCase from '../modules/producer-crops/application/use-cases/update-producer-crop.usecase';
+import CreateProducerCropUseCase from '../modules/producer-crops/application/use-cases/create-producer-crop.usecase';
+import ProducerCropService from '../modules/producer-crops/domain/producer-crop.service';
+import ProducerCropRepositoryPort from '../modules/producer-crops/domain/ports/producer-crop-repository.port';
+import ProducerCropRepositoryAdapter from '../modules/producer-crops/infrastructure/adapters/producer-crop-repository.adapter';
 
 // Registrar repositórios
 container.registerSingleton<UserRepositoryPort>(
@@ -48,6 +57,10 @@ container.registerSingleton<CropsRepositoryPort>(
   'CropRepositoryPort',
   CropsRepositoryAdapter,
 );
+container.registerSingleton<ProducerCropRepositoryPort>(
+  'ProducerCropRepositoryPort',
+  ProducerCropRepositoryAdapter,
+);
 
 // Registrar serviços
 container.registerSingleton<UserService>('UserService', UserService);
@@ -56,6 +69,10 @@ container.registerSingleton<ProducerService>(
   ProducerService,
 );
 container.registerSingleton<CropService>('CropService', CropService);
+container.registerSingleton<ProducerCropService>(
+  'ProducerCropService',
+  ProducerCropService,
+);
 
 // Registrar casos de uso - User
 container.registerSingleton<CreateUserUseCase>(
@@ -117,6 +134,28 @@ container.registerSingleton<ListCropsUseCase>(
   ListCropsUseCase,
 );
 
+// Registrar casos de uso - ProducerCrops
+container.registerSingleton<CreateProducerCropUseCase>(
+  'CreateProducerCropUseCase',
+  CreateProducerCropUseCase,
+);
+container.registerSingleton<UpdateProducerCropUseCase>(
+  'UpdateProducerCropUseCase',
+  UpdateProducerCropUseCase,
+);
+container.registerSingleton<ListProducerCropsUseCase>(
+  'ListProducerCropsUseCase',
+  ListProducerCropsUseCase,
+);
+container.registerSingleton<DeleteProducerCropUseCase>(
+  'DeleteProducerCropUseCase',
+  DeleteProducerCropUseCase,
+);
+container.registerSingleton<ListProducerCropsByStateUseCase>(
+  'ListProducerCropsByStateUseCase',
+  ListProducerCropsByStateUseCase,
+);
+
 // Registrar controladores
 container.registerSingleton<UserController>('UserController', UserController);
 container.registerSingleton<ProducerController>(
@@ -124,3 +163,7 @@ container.registerSingleton<ProducerController>(
   ProducerController,
 );
 container.registerSingleton<CropController>('CropController', CropController);
+container.registerSingleton<ProducerCropController>(
+  'ProducerCropController',
+  ProducerCropController,
+);
