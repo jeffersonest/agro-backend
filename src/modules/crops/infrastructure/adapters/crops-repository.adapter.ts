@@ -1,30 +1,30 @@
 import { injectable } from 'tsyringe';
 import { Repository } from 'typeorm';
 import { AppDataSource } from '../../../../config/typeorm.config';
-import Crops from '../../domain/crops.entity';
+import Crop from '../../domain/crops.entity';
 import CropsRepositoryPort from '../../domain/ports/crops-repository.port';
 
 @injectable()
-class CropsRepositoryAdapter implements CropsRepositoryPort {
-  private repository: Repository<Crops>;
+class CropRepositoryAdapter implements CropsRepositoryPort {
+  private repository: Repository<Crop>;
 
   constructor() {
-    this.repository = AppDataSource.getRepository(Crops);
+    this.repository = AppDataSource.getRepository(Crop);
   }
 
-  async create(crop: Crops): Promise<Crops> {
+  async create(crop: Crop): Promise<Crop> {
     return await this.repository.save(crop);
   }
 
-  async findAll(): Promise<Crops[]> {
+  async findAll(): Promise<Crop[]> {
     return await this.repository.find();
   }
 
-  async findCropById(id: string): Promise<Crops | null> {
+  async findById(id: string): Promise<Crop | null> {
     return await this.repository.findOneBy({ id });
   }
 
-  async updateCrop(id: string, crop: Crops): Promise<Crops | null> {
+  async update(id: string, crop: Crop): Promise<Crop | null> {
     const existingCrop = await this.repository.findOneBy({ id });
     if (!existingCrop) {
       return null;
@@ -33,10 +33,10 @@ class CropsRepositoryAdapter implements CropsRepositoryPort {
     return await this.repository.save(updatedCrop);
   }
 
-  async deleteCrop(id: string): Promise<boolean> {
+  async delete(id: string): Promise<boolean> {
     const result = await this.repository.delete(id);
     return result.affected !== 0;
   }
 }
 
-export default CropsRepositoryAdapter;
+export default CropRepositoryAdapter;

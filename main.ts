@@ -2,8 +2,8 @@ import 'reflect-metadata';
 import * as dotenv from 'dotenv';
 dotenv.config();
 import './src/config/tsyringe.config';
-import Server from './server';
 import { AppDataSource } from './src/config/typeorm.config';
+import Server from './server';
 
 AppDataSource.initialize()
   .then(() => {
