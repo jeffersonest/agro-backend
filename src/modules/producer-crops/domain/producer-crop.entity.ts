@@ -5,7 +5,7 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import { v4 as uuidv4 } from 'uuid';
+import { v7 as uuidv7 } from 'uuid';
 import Producer from '../../producer/domain/producer.entity';
 import Crop from '../../crops/domain/crops.entity';
 
@@ -32,7 +32,7 @@ class ProducerCrop {
 
   constructor() {
     if (!this.id) {
-      this.id = uuidv4();
+      this.id = uuidv7();
     }
   }
 }

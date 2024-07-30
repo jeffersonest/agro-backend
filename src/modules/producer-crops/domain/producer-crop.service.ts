@@ -4,6 +4,7 @@ import CreateProducerCropDTO from '../application/dto/create-producer-crop.dto';
 import ProducerRepositoryPort from '../../producer/domain/ports/producer-repository.port';
 import UpdateProducerCropDTO from '../application/dto/update-producer-crop.dto';
 import ProducerCropRepositoryPort from './ports/producer-crop-repository.port';
+import CropsRepositoryPort from '../../crops/domain/ports/crops-repository.port';
 
 @injectable()
 class ProducerCropService {
@@ -12,6 +13,8 @@ class ProducerCropService {
     private producerCropRepository: ProducerCropRepositoryPort,
     @inject('ProducerRepositoryPort')
     private producerRepository: ProducerRepositoryPort,
+    @inject('CropRepositoryPort')
+    private cropRepository: CropsRepositoryPort,
   ) {}
 
   async createProducerCrop(data: CreateProducerCropDTO): Promise<ProducerCrop> {
@@ -29,9 +32,9 @@ class ProducerCropService {
     if (totalArea > producer.farmSize) {
       throw new Error('Total crop area exceeds farm size');
     }
-
+    const cropToAdd = await this.cropRepository.findById(data.cropId);
     const producerCrop = new ProducerCrop();
-    Object.assign(producerCrop, data);
+    Object.assign(producerCrop, { ...data, crop: cropToAdd, producer });
     return this.producerCropRepository.create(producerCrop);
   }
 
