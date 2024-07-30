@@ -1,0 +1,119 @@
+# src/docs/producer-crops.yml
+openapi: 3.0.0
+info:
+  title: Producer Crop API
+  version: 1.0.0
+  description: API para gerenciar plantações dos produtores
+
+paths:
+  /producer-crops:
+    get:
+      summary: Lista todas as plantações dos produtores
+      tags:
+        - Producer Crops
+      responses:
+        '200':
+          description: Lista de plantações dos produtores
+        '400':
+          description: Erro na requisição
+    post:
+      summary: Cria uma nova plantação para um produtor
+      tags:
+        - Producer Crops
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProducerCrop'
+      responses:
+        '201':
+          description: Plantação criada com sucesso
+        '400':
+          description: Erro na requisição
+  /producer-crops/{id}:
+    get:
+      summary: Retorna uma plantação de um produtor
+      tags:
+        - Producer Crops
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID da plantação do produtor
+      responses:
+        '200':
+          description: Sucesso
+        '404':
+          description: Plantação do produtor não encontrada
+    put:
+      summary: Atualiza uma plantação de um produtor
+      tags:
+        - Producer Crops
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID da plantação do produtor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProducerCrop'
+      responses:
+        '200':
+          description: Plantação atualizada com sucesso
+        '404':
+          description: Plantação do produtor não encontrada
+        '400':
+          description: Erro na requisição
+    delete:
+      summary: Deleta uma plantação de um produtor
+      tags:
+        - Producer Crops
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID da plantação do produtor
+      responses:
+        '200':
+          description: Plantação deletada com sucesso
+        '404':
+          description: Plantação do produtor não encontrada
+  /producer-crops/state/{state}:
+    get:
+      summary: Lista todas as plantações dos produtores por estado
+      tags:
+        - Producer Crops
+      parameters:
+        - in: path
+          name: state
+          schema:
+            type: string
+          required: true
+          description: Estado das plantações
+      responses:
+        '200':
+          description: Lista de plantações dos produtores por estado
+        '400':
+          description: Erro na requisição
+
+components:
+  schemas:
+    ProducerCrop:
+      type: object
+      properties:
+        producerId:
+          type: string
+        cropId:
+          type: string
+        area:
+          type: number

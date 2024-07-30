@@ -1,0 +1,58 @@
+# src/docs/statistics.yml
+openapi: 3.0.0
+info:
+  title: Statistics API
+  version: 1.0.0
+  description: API para obter estatísticas
+
+paths:
+  /statistics/farm-count:
+    get:
+      summary: Retorna o total de fazendas
+      tags:
+        - Statistics
+      responses:
+        '200':
+          description: Total de fazendas
+        '400':
+          description: Erro na requisição
+  /statistics/total-hectares:
+    get:
+      summary: Retorna o total de hectares
+      tags:
+        - Statistics
+      responses:
+        '200':
+          description: Total de hectares
+        '400':
+          description: Erro na requisição
+  /statistics/pie-chart-by-state:
+    get:
+      summary: Retorna o gráfico de pizza por estado
+      tags:
+        - Statistics
+      responses:
+        '200':
+          description: Gráfico de pizza por estado
+        '400':
+          description: Erro na requisição
+  /statistics/pie-chart-by-crop:
+    get:
+      summary: Retorna o gráfico de pizza por cultura
+      tags:
+        - Statistics
+      responses:
+        '200':
+          description: Gráfico de pizza por cultura
+        '400':
+          description: Erro na requisição
+  /statistics/pie-chart-by-land-use:
+    get:
+      summary: Retorna o gráfico de pizza por uso de solo
+      tags:
+        - Statistics
+      responses:
+        '200':
+          description: Gráfico de pizza por uso de solo
+        '400':
+          description: Erro na requisição

@@ -1,0 +1,125 @@
+# src/docs/user.yml
+openapi: 3.0.0
+info:
+  title: User API
+  version: 1.0.0
+  description: API para gerenciar usuários
+
+paths:
+  /users:
+    get:
+      summary: Lista todos os usuários
+      tags:
+        - Users
+      responses:
+        '200':
+          description: Lista de usuários
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '400':
+          description: Erro na requisição
+    post:
+      summary: Cria um novo usuário
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserDTO'
+      responses:
+        '201':
+          description: Usuário criado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Erro na requisição
+  /users/{id}:
+    get:
+      summary: Retorna um usuário
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID do usuário
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: Usuário não encontrado
+    put:
+      summary: Atualiza um usuário
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID do usuário
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserDTO'
+      responses:
+        '200':
+          description: Usuário atualizado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: Usuário não encontrado
+        '400':
+          description: Erro na requisição
+    delete:
+      summary: Deleta um usuário
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID do usuário
+      responses:
+        '200':
+          description: Usuário deletado com sucesso
+        '404':
+          description: Usuário não encontrado
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+        name:
+          type: string
+        password:
+          type: string          
+        createdAt:
+          type: string
+          format: date-time

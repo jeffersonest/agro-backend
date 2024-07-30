@@ -1,0 +1,112 @@
+# src/docs/producer.yml
+openapi: 3.0.0
+info:
+  title: Producer API
+  version: 1.0.0
+  description: API para gerenciar produtores
+
+paths:
+  /producers:
+    get:
+      summary: Lista todos os produtores
+      tags:
+        - Producers
+      responses:
+        '200':
+          description: Lista de produtores
+        '400':
+          description: Erro na requisição
+    post:
+      summary: Cria um novo produtor
+      tags:
+        - Producers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Producer'
+      responses:
+        '201':
+          description: Produtor criado com sucesso
+        '400':
+          description: Erro na requisição
+  /producers/{id}:
+    get:
+      summary: Retorna um produtor
+      tags:
+        - Producers
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID do produtor
+      responses:
+        '200':
+          description: Sucesso
+        '404':
+          description: Produtor não encontrado
+    put:
+      summary: Atualiza um produtor
+      tags:
+        - Producers
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID do produtor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Producer'
+      responses:
+        '200':
+          description: Produtor atualizado com sucesso
+        '404':
+          description: Produtor não encontrado
+        '400':
+          description: Erro na requisição
+    delete:
+      summary: Deleta um produtor
+      tags:
+        - Producers
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID do produtor
+      responses:
+        '200':
+          description: Produtor deletado com sucesso
+        '404':
+          description: Produtor não encontrado
+
+components:
+  schemas:
+    Producer:
+      type: object
+      properties:
+        identification:
+          type: string
+        producerName:
+          type: string
+        farmName:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        farmSize:
+          type: number
+        usableArea:
+          type: number
+        vegetationArea:
+          type: number

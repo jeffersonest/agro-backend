@@ -1,0 +1,98 @@
+# src/docs/crops.yml
+openapi: 3.0.0
+info:
+  title: Crops API
+  version: 1.0.0
+  description: API para gerenciar plantações
+
+paths:
+  /crops:
+    get:
+      summary: Lista todas as plantações
+      tags:
+        - Crops
+      responses:
+        '200':
+          description: Lista de plantações
+        '400':
+          description: Erro na requisição
+    post:
+      summary: Cria uma nova plantação
+      tags:
+        - Crops
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Crop'
+      responses:
+        '201':
+          description: Plantação criada com sucesso
+        '400':
+          description: Erro na requisição
+  /crops/{id}:
+    get:
+      summary: Retorna uma plantação
+      tags:
+        - Crops
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID da plantação
+      responses:
+        '200':
+          description: Sucesso
+        '404':
+          description: Plantação não encontrada
+    put:
+      summary: Atualiza uma plantação
+      tags:
+        - Crops
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID da plantação
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Crop'
+      responses:
+        '200':
+          description: Plantação atualizada com sucesso
+        '404':
+          description: Plantação não encontrada
+        '400':
+          description: Erro na requisição
+    delete:
+      summary: Deleta uma plantação
+      tags:
+        - Crops
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID da plantação
+      responses:
+        '200':
+          description: Plantação deletada com sucesso
+        '404':
+          description: Plantação não encontrada
+
+components:
+  schemas:
+    Crop:
+      type: object
+      properties:
+        name:
+          type: string
