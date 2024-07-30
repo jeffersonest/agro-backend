@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable no-undef */
 import 'reflect-metadata';
 import '../../../config/tests.config';
