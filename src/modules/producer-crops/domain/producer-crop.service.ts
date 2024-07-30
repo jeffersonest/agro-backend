@@ -22,7 +22,10 @@ class ProducerCropService {
     if (!producer) {
       throw new Error('Producer not found');
     }
-
+    const cropToAdd = await this.cropRepository.findById(data.cropId);
+    if (!cropToAdd) {
+      throw new Error('Crop not found');
+    }
     const crops = await this.producerCropRepository.findAllByProducer(
       data.producerId,
     );
@@ -32,7 +35,7 @@ class ProducerCropService {
     if (totalArea > producer.farmSize) {
       throw new Error('Total crop area exceeds farm size');
     }
-    const cropToAdd = await this.cropRepository.findById(data.cropId);
+
     const producerCrop = new ProducerCrop();
     Object.assign(producerCrop, { ...data, crop: cropToAdd, producer });
     return this.producerCropRepository.create(producerCrop);
@@ -45,6 +48,10 @@ class ProducerCropService {
     const producer = await this.producerRepository.findById(data.producerId);
     if (!producer) {
       throw new Error('Producer not found');
+    }
+    const cropToAdd = await this.cropRepository.findById(data.cropId);
+    if (!cropToAdd) {
+      throw new Error('Crop not found');
     }
 
     const crops = await this.producerCropRepository.findAllByProducer(
@@ -64,7 +71,7 @@ class ProducerCropService {
       return null;
     }
 
-    Object.assign(producerCrop, data);
+    Object.assign(producerCrop, { ...data, crop: cropToAdd, producer });
     return this.producerCropRepository.update(id, producerCrop);
   }
 
