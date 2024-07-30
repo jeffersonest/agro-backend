@@ -1,7 +1,6 @@
 import 'reflect-metadata';
 import { container } from 'tsyringe';
 
-// Importar classes e interfaces necessárias
 // User imports
 import CreateUserUseCase from '../modules/user/application/use-cases/create-user.usecase';
 import UpdateUserUseCase from '../modules/user/application/use-cases/update-user.usecase';
@@ -52,6 +51,10 @@ import StatisticsController from '../modules/statistics/infrastructure/statistic
 import StatisticsService from '../modules/statistics/domain/statistics.service';
 import StatisticsRepositoryAdapter from '../modules/statistics/infrastructure/adapters/statistics-repository.adapter';
 import StatisticsRepositoryPort from '../modules/statistics/domain/ports/statistics-repository.port';
+import { AuthService } from '../modules/auth/domain/auth.service';
+import { LoginUseCase } from '../modules/auth/application/use-cases/login.usecase';
+import { RefreshTokenUseCase } from '../modules/auth/application/use-cases/refresh-token.usecase';
+import AuthController from '../modules/auth/infrastructure/auth.controller';
 
 // Registrar repositórios
 container.registerSingleton<UserRepositoryPort>(
@@ -90,6 +93,7 @@ container.registerSingleton<StatisticsService>(
   'StatisticsService',
   StatisticsService,
 );
+container.registerSingleton<AuthService>('AuthService', AuthService);
 
 // Registrar casos de uso - User
 container.registerSingleton<CreateUserUseCase>(
@@ -173,7 +177,7 @@ container.registerSingleton<ListProducerCropsByStateUseCase>(
   ListProducerCropsByStateUseCase,
 );
 
-//---
+// Registrar casos de uso - Statistics
 
 container.registerSingleton<GetFarmCountUseCase>(
   'GetFarmCountUseCase',
@@ -196,6 +200,13 @@ container.registerSingleton<GetPieChartByLandUseUseCase>(
   GetPieChartByLandUseUseCase,
 );
 
+// Registrar casos de uso - Auth
+container.registerSingleton<LoginUseCase>('LoginUseCase', LoginUseCase);
+container.registerSingleton<RefreshTokenUseCase>(
+  'RefreshTokenUseCase',
+  RefreshTokenUseCase,
+);
+
 // Registrar controladores
 container.registerSingleton<UserController>('UserController', UserController);
 container.registerSingleton<ProducerController>(
@@ -211,3 +222,5 @@ container.registerSingleton<StatisticsController>(
   'StatisticsController',
   StatisticsController,
 );
+
+container.registerSingleton<AuthController>('AuthController', AuthController);

@@ -1,0 +1,71 @@
+# src/docs/auth.yml
+openapi: 3.0.0
+info:
+  title: Auth API
+  version: 1.0.0
+  description: API para autenticação
+
+paths:
+  /auth/login:
+    post:
+      summary: Login do usuário
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginDTO'
+      responses:
+        '200':
+          description: Tokens gerados
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+                  refreshToken:
+                    type: string
+        '400':
+          description: Erro na requisição
+  /auth/refresh-token:
+    post:
+      summary: Gera um novo token de acesso
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                refreshToken:
+                  type: string
+      responses:
+        '200':
+          description: Novo token de acesso gerado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+        '400':
+          description: Erro na requisição
+
+components:
+  schemas:
+    LoginDTO:
+      type: object
+      properties:
+        email:
+          type: string
+          example: user@example.com
+        password:
+          type: string
+          example: password123

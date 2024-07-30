@@ -6,7 +6,7 @@ info:
   description: API para gerenciar usuários
 
 paths:
-  /users:
+  /user:
     get:
       summary: Lista todos os usuários
       tags:
@@ -41,7 +41,7 @@ paths:
                 $ref: '#/components/schemas/User'
         '400':
           description: Erro na requisição
-  /users/{id}:
+  /user/{id}:
     get:
       summary: Retorna um usuário
       tags:

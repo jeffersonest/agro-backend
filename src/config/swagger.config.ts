@@ -14,7 +14,7 @@ const swaggerOptions: Options = {
       },
     ],
   },
-  apis: ['./src/docs/**/*.yml'], // Caminho para seus arquivos de documentação
+  apis: ['./src/docs/**/*.yml'],
 };
 
 export default swaggerOptions;

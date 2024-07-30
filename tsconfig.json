@@ -10,7 +10,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "outDir": "./dist",
-    "rootDir": "./src",
+    "rootDir": "./",
     "baseUrl": "./src",
     "paths": {
       "*": ["node_modules/*"],
@@ -19,6 +19,6 @@
       "@shared/*": ["shared/*"]
     }
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "./*"],
   "exclude": ["node_modules", "dist"]
 }
