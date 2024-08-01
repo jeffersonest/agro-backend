@@ -15,14 +15,15 @@ export class AuthService {
   async login(
     email: string,
     password: string,
-  ): Promise<{ accessToken: string; refreshToken: string }> {
+  ): Promise<{ accessToken: string; refreshToken: string; user: User }> {
     const user = await this.userRepository.findByEmail(email);
     if (!user || !(await bcrypt.compare(password, user.password))) {
       throw new Error('Invalid email or password');
     }
+    user.password = 'secret';
     const accessToken = this.generateToken(user, '1h');
     const refreshToken = this.generateToken(user, '7d');
-    return { accessToken, refreshToken };
+    return { accessToken, refreshToken, user };
   }
 
   async refreshToken(refreshToken: string): Promise<{ accessToken: string }> {

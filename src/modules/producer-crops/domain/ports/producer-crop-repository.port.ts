@@ -11,6 +11,7 @@ abstract class ProducerCropRepositoryPort {
   abstract findAll(): Promise<ProducerCrop[]>;
   abstract findAllByProducer(producerId: string): Promise<ProducerCrop[]>;
   abstract findAllByState(state: string): Promise<ProducerCrop[]>;
+  abstract findCropByProducerId(producerId: string): Promise<ProducerCrop[]>;
 }
 
 export default ProducerCropRepositoryPort;

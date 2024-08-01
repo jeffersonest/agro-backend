@@ -59,6 +59,16 @@ class ProducerCropRepositoryAdapter implements ProducerCropRepositoryPort {
       .leftJoinAndSelect('producerCrop.crop', 'crop')
       .getMany();
   }
+
+  async findCropByProducerId(producerId: string): Promise<ProducerCrop[]> {
+    const area = await this.repository.find({
+      select: ['area'],
+      where: { producer: { id: producerId } },
+      relations: ['producer', 'crop'],
+    });
+
+    return area;
+  }
 }
 
 export default ProducerCropRepositoryAdapter;

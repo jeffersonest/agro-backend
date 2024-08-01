@@ -1,4 +1,3 @@
-// src/modules/auth/infrastructure/auth.controller.ts
 import { Request, Response } from 'express';
 import { inject, injectable } from 'tsyringe';
 import { LoginUseCase } from '../application/use-cases/login.usecase';

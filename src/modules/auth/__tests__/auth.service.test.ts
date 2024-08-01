@@ -7,6 +7,7 @@ import jwt from 'jsonwebtoken';
 import UserRepositoryPort from '../../user/domain/ports/user-repository.port';
 import { AuthService } from '../domain/auth.service';
 import User from '../../user/domain/user.entity';
+import { v7 as uuidv7 } from 'uuid';
 
 describe('AuthService', () => {
   let authService: AuthService;
@@ -27,7 +28,7 @@ describe('AuthService', () => {
   describe('login', () => {
     it('should return access and refresh tokens for valid credentials', async () => {
       const user: User = {
-        id: '1',
+        id: uuidv7(),
         email: 'test@example.com',
         password: await bcrypt.hash('password', 10),
         name: 'Test User',
@@ -35,10 +36,20 @@ describe('AuthService', () => {
       };
 
       (userRepository.findByEmail as jest.Mock).mockResolvedValue(user);
-      const tokens = await authService.login('test@example.com', 'password');
+      const {
+        accessToken,
+        refreshToken,
+        user: returnedUser,
+      } = await authService.login('test@example.com', 'password');
 
-      expect(tokens).toHaveProperty('accessToken');
-      expect(tokens).toHaveProperty('refreshToken');
+      expect(accessToken).toBeDefined();
+      expect(refreshToken).toBeDefined();
+      expect(returnedUser).toEqual(
+        expect.objectContaining({
+          id: user.id,
+          email: user.email,
+        }),
+      );
     });
 
     it('should throw an error for invalid credentials', async () => {
@@ -53,7 +64,7 @@ describe('AuthService', () => {
   describe('refreshToken', () => {
     it('should return a new access token for a valid refresh token', async () => {
       const user: User = {
-        id: '1',
+        id: uuidv7(),
         email: 'test@example.com',
         password: 'password',
         name: 'Test User',
@@ -66,9 +77,9 @@ describe('AuthService', () => {
         process.env.JWT_SECRET!,
         { expiresIn: '7d' },
       );
-      const token = await authService.refreshToken(refreshToken);
+      const { accessToken } = await authService.refreshToken(refreshToken);
 
-      expect(token).toHaveProperty('accessToken');
+      expect(accessToken).toBeDefined();
     });
 
     it('should throw an error for an invalid refresh token', async () => {
