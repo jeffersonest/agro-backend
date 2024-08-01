@@ -6,6 +6,7 @@ abstract class CropsRepositoryPort {
   abstract findById(id: string): Promise<Crops | null>;
   abstract update(id: string, crop: Crops): Promise<Crops | null>;
   abstract delete(id: string): Promise<boolean>;
+  abstract findByName(name: string): Promise<Crops | null>;
 }
 
 export default CropsRepositoryPort;

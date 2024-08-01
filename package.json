@@ -11,10 +11,11 @@
     "lint": "eslint './src/**/*.ts' --config eslint.config.mjs",
     "lint:fix": "eslint './src/**/*.ts' --fix --config eslint.config.mjs",
     "format": "prettier --write './src/**/*.ts'",
-    "typeorm": "typeorm-ts-node-commonjs",
-    "migration:generate": "npm run typeorm migration:generate -- -d src/migrations -n MigrationName",
-    "migration:run": "npm run typeorm migration:run",
-    "migration:revert": "npm run typeorm migration:revert"
+    "typeorm:migration:generate": "npm run typeorm -- migration:generate",
+    "typeorm:migration:revert": "npm run typeorm -- migration:revert -d src/config/typeorm.config.ts",
+    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
+    "typeorm:migration:create": "npm run typeorm -- migration:create src/shared/database/migrations",
+    "typeorm:migration:run": "npm run typeorm -- migration:run -d src/config/typeorm.config.ts"
   },
   "keywords": [],
   "author": "",
@@ -36,6 +37,7 @@
     "reflect-metadata": "^0.2.2",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
+    "tsconfig-paths": "^4.2.0",
     "typeorm": "^0.3.20",
     "uuid": "^10.0.0"
   },

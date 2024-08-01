@@ -37,6 +37,10 @@ class CropRepositoryAdapter implements CropsRepositoryPort {
     const result = await this.repository.delete(id);
     return result.affected !== 0;
   }
+
+  async findByName(name: string): Promise<Crop | null> {
+    return await this.repository.findOneBy({ name });
+  }
 }
 
 export default CropRepositoryAdapter;

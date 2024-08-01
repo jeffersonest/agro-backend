@@ -19,6 +19,7 @@ describe('CropsService', () => {
       delete: jest.fn(),
       findById: jest.fn(),
       findAll: jest.fn(),
+      findByName: jest.fn(),
     } as unknown as CropsRepositoryPort;
     cropService = new CropService(cropRepository);
   });

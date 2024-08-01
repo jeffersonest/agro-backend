@@ -14,5 +14,4 @@ RUN npm run build
 
 EXPOSE 4000
 
-CMD ["node", "dist/main.js"]
-
+CMD ["sh", "-c", "npm run typeorm:migration:run && node dist/main.js"]

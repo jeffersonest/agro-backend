@@ -11,6 +11,10 @@ class CropService {
   ) {}
 
   async createCrop(crop: Crop): Promise<Crop> {
+    const cropExists = await this.cropRepository.findByName(crop.name);
+    if (cropExists) {
+      throw new Error('Crop already exists');
+    }
     return this.cropRepository.create(crop);
   }
 
@@ -18,6 +22,11 @@ class CropService {
     const crop = await this.cropRepository.findById(id);
     if (!crop) {
       throw new Error('Crop not found');
+    }
+
+    const cropExists = await this.cropRepository.findByName(crop.name);
+    if (cropExists) {
+      throw new Error('Crop already exists');
     }
 
     Object.assign(crop, data);
